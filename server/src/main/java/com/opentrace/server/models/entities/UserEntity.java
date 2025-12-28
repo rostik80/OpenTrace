@@ -1,4 +1,4 @@
-package com.opentrace.server.entities;
+package com.opentrace.server.models.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,8 +33,8 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "display_name")
-    private String displayName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "avatar_url", columnDefinition = "TEXT")
     private String avatarUrl;

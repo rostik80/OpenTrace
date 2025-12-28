@@ -1,4 +1,4 @@
-package com.opentrace.server.controllers;
+package com.opentrace.server.controllers.ui;
 
 
 import org.springframework.stereotype.Controller;
@@ -12,8 +12,8 @@ public class TestController {
 
     @GetMapping("/test")
     @ResponseBody
-    public String Cheack() {
-        System.out.println("accept req on rout /");
+    public String Check() {
+        System.out.println("accept req on rout /test");
 
         return "ok";
     }

@@ -1,4 +1,4 @@
-package com.opentrace.server.entities;
+package com.opentrace.server.models.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,9 +12,9 @@ import java.util.UUID;
 @Table(name = "searches")
 @Getter
 @Setter
-public class SearcheEntity {
+public class SearchRequestEntity {
 
-    public enum SearchStatus {
+    public enum SearchRequestStatus {
         NEW,
         PROCESSING,
         COMPLETED,
@@ -31,17 +31,18 @@ public class SearcheEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SearchStatus status = SearchStatus.NEW;
+    private SearchRequestStatus status = SearchRequestStatus.NEW;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
 
-    public SearcheEntity() {}
+    public SearchRequestEntity() {}
 
-    public SearcheEntity(String query) {
+    public SearchRequestEntity(String query) {
+        this.id = id;
         this.query = query;
-        this.status = SearchStatus.NEW;
+        this.status = SearchRequestStatus.NEW;
     }
 }
