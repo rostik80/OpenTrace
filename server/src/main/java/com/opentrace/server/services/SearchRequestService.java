@@ -5,6 +5,7 @@ import com.opentrace.server.models.entities.SearchRequestEntity;
 import com.opentrace.server.repositories.SearchRequestRepository;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class SearchRequestService {
 

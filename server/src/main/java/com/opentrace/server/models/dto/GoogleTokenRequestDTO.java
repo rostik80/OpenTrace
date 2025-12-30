@@ -3,9 +3,11 @@ package com.opentrace.server.models.dto;
 import lombok.Builder;
 import lombok.Data;
 
+
 @Data
 @Builder
 public class GoogleTokenRequestDTO {
+
     private String code;
     private String client_id;
     private String client_secret;

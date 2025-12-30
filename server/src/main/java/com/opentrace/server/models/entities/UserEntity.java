@@ -1,56 +1,38 @@
 package com.opentrace.server.models.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
-
-    public enum UserRole {
-        USER, ADMIN
-    }
-
-    public enum UserStatus {
-        ACTIVE, BANNED, PREMIUM
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "google_id", unique = true, nullable = false)
-    private String googleId;
-
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
+    private String googleSub;
     private String email;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "avatar_url", columnDefinition = "TEXT")
     private String avatarUrl;
 
-    @Column(name = "public_key", columnDefinition = "TEXT")
-    private String publicKey;
+    @Builder.Default
+    private Integer priority = 10;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRole role = UserRole.USER;
+    private String status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserStatus status = UserStatus.ACTIVE;
+    @Builder.Default
+    private Integer tokenVersion = 1;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<RoleEntity> roles = new ArrayList<>();
 }

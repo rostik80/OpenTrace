@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -18,15 +18,22 @@ public class AuthAPI {
 
     // entry point
     @GetMapping("/google")
-    public void redirectToGoogle(HttpServletResponse response) throws IOException {
-        String url = googleAuthService.getAuthUrl();
+    public void redirectToGoogle(
+            @RequestParam(value = "role", defaultValue = "REQUESTER") String roles,
+            HttpServletResponse response
+    ) throws IOException {
+
+        String url = googleAuthService.getAuthUrl(roles);
         response.sendRedirect(url);
     }
 
     // Callback
     @GetMapping("/google/callback")
-    public ResponseEntity<?> handleCallback(@RequestParam(value = "code", required = false) String code,
-                                            @RequestParam(value = "error", required = false) String error) {
+    public ResponseEntity<?> handleCallback(
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "state", required = false) String roles,
+            @RequestParam(value = "error", required = false) String error
+    ) {
         if (error != null) {
             return ResponseEntity.badRequest().body("Google error: " + error);
         }
@@ -35,8 +42,8 @@ public class AuthAPI {
             return ResponseEntity.badRequest().body("Missing code from Google");
         }
 
-        Map<String, Object> userData = googleAuthService.processGoogleCallback(code);
+        String jwt = googleAuthService.processGoogleCallback(code, roles);
 
-        return ResponseEntity.ok(userData);
+        return ResponseEntity.ok(jwt);
     }
 }

@@ -1,4 +1,4 @@
-package com.opentrace.server.services.auth.helpers;
+package com.opentrace.server.builders.auth;
 
 import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
 import com.opentrace.server.properties.GoogleAuthProperties;
@@ -12,7 +12,7 @@ public class GoogleTokenBuilder {
 
     private final GoogleAuthProperties props;
 
-    public GoogleTokenRequestDTO buildTokenRequest(String code) {
+    public GoogleTokenRequestDTO buildTokenBodyRequest(String code) {
         return GoogleTokenRequestDTO.builder()
                 .code(code)
                 .client_id(props.getClientId())

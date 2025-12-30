@@ -10,14 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class RoleDTO {
 
     private Long id;
-    private String googleSub;
-    private String email;
-    private String name;
-    private String avatarUrl;
-    private String status;
-    private Integer priority;
-    private Integer tokenVersion;
+    private String roleName;
+    private Long userId;
 }

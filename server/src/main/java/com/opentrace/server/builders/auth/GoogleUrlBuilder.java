@@ -1,4 +1,4 @@
-package com.opentrace.server.services.auth.helpers;
+package com.opentrace.server.builders.auth;
 
 import com.opentrace.server.properties.GoogleAuthProperties;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +17,11 @@ public class GoogleUrlBuilder {
         return getBaseBuilder().toUriString();
     }
 
-    public String buildFullAuthUrlWithAccountSelect() {
+    public String buildFullAuthUrlWithAccountSelect(String roles) {
          return getBaseBuilder()
                 .queryParam("access_type", "offline")
                 .queryParam("prompt", "select_account")
+                .queryParam("state", roles)
                 .build()
                 .toUriString();
     }
