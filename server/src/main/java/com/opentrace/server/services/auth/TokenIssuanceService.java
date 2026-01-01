@@ -15,29 +15,23 @@ import java.util.List;
 public class TokenIssuanceService {
 
     private final RoleParser roleParser;
+
     private final RoleService roleService;
     private final JwtProvider jwtProvider;
     private final UserMapper userMapper;
 
 
-    public String authorizeAndIssueToken(UserDTO userDto, String roles) {
+    public String authorize(UserDTO userDto, String requestedRoles) {
 
-        List<String> requestedRoles = roleParser.parseRoles(roles);
+        System.out.println(requestedRoles);
+        List<String> rolesForIssuance = roleParser.parseRoles(requestedRoles);
+        System.out.println(rolesForIssuance);
 
-        List<String> allowedRoles = roleService.getUserRoles(userDto.getId());
-        validatePermissions(requestedRoles, allowedRoles);
+        roleService.assignRoles(userDto, rolesForIssuance);
 
         return jwtProvider.createToken(
                 userMapper.toEntity(userDto),
-                requestedRoles
+                rolesForIssuance
         );
-    }
-
-    private void validatePermissions(List<String> requested, List<String> allowed) {
-        boolean hasAll = allowed.containsAll(requested);
-
-        if (!hasAll) {
-            throw new RuntimeException("Access denied: you do not have permission for one of the selected roles.");
-        }
     }
 }

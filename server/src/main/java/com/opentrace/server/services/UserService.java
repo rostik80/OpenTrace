@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final RoleService roleService;
+    private final RolePermissionService rolePermissionService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -28,13 +28,15 @@ public class UserService {
                     return userRepository.save(existingUser);
                 })
                 .orElseGet(() -> {
-                    UserEntity newUser = userMapper.toEntity(googleUser);
-                    newUser.setTokenVersion(1);
-                    newUser.setPriority(0);
+                    UserEntity newUserEntity = userMapper.toEntity(googleUser);
+                    newUserEntity.setTokenVersion(1);
+                    newUserEntity.setPriority(0);
 
-                    UserEntity savedUser = userRepository.save(newUser);
+                    UserEntity savedUser = userRepository.save(newUserEntity);
 
-                    roleService.assignDefaultRoles(savedUser);
+                    UserDTO savedUserDTO = userMapper.toDto(savedUser);
+
+                    rolePermissionService.assignRolesPermission(savedUserDTO);
 
                     return savedUser;
                 });

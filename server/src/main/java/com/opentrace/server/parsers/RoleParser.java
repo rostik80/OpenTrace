@@ -13,6 +13,7 @@ public class RoleParser {
         if (roles == null || roles.isBlank()) {
             return List.of("REQUESTER");
         }
+        System.out.println("RoleParser");
         return Arrays.stream(roles.split(","))
                 .map(String::trim)
                 .map(String::toUpperCase)

@@ -16,10 +16,9 @@ public class AuthAPI {
 
     private final GoogleAuthService googleAuthService;
 
-    // entry point
     @GetMapping("/google")
     public void redirectToGoogle(
-            @RequestParam(value = "role", defaultValue = "REQUESTER") String roles,
+            @RequestParam(value = "roles", defaultValue = "REQUESTER") String roles,
             HttpServletResponse response
     ) throws IOException {
 
@@ -27,7 +26,6 @@ public class AuthAPI {
         response.sendRedirect(url);
     }
 
-    // Callback
     @GetMapping("/google/callback")
     public ResponseEntity<?> handleCallback(
             @RequestParam(value = "code", required = false) String code,
@@ -41,6 +39,7 @@ public class AuthAPI {
         if (code == null) {
             return ResponseEntity.badRequest().body("Missing code from Google");
         }
+        System.out.println(roles);
 
         String jwt = googleAuthService.processGoogleCallback(code, roles);
 
