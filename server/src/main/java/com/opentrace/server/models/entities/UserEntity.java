@@ -34,5 +34,5 @@ public class UserEntity {
     private Integer tokenVersion = 1;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<RoleEntity> roles = new ArrayList<>();
+    private List<RolePermissionEntity> roles = new ArrayList<>();
 }

@@ -1,29 +1,25 @@
 package com.opentrace.server.models.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Entity
-@Table(name = "user_roles")
-@Data
+@Table(name = "role_permissions")
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleEntity {
-
+public class RolePermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "role_name", nullable = false)
-    private String roleName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @Column(name = "target_role", nullable = false)
+    private String targetRole;
 }

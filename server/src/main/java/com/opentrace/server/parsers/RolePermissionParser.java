@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RoleParser {
+public class RolePermissionParser {
 
     public List<String> parseRoles(String roles) {
         if (roles == null || roles.isBlank()) {

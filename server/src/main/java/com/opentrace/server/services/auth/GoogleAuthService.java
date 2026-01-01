@@ -32,6 +32,6 @@ public class GoogleAuthService {
 
         UserDTO user = userService.saveOrUpdate(googleUser);
 
-        return tokenIssuanceService.authorizeAndIssueToken(user, roles);
+        return tokenIssuanceService.authorize(user, roles);
     }
 }

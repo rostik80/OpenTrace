@@ -1,7 +1,8 @@
 package com.opentrace.server.security;
 
 import com.opentrace.server.builders.JwtTokenBuilder;
-import com.opentrace.server.models.entities.UserEntity;
+import com.opentrace.server.mappers.UserMapper;
+import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.properties.JwtProperties;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -17,12 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtProvider implements InitializingBean {
 
+    private final UserMapper userMapper;
     private final JwtProperties jwtProperties;
     private final JwtTokenBuilder tokenBuilder;
     private Key key;
 
-    public String createToken(UserEntity user, List<String> roles) {
-        return tokenBuilder.buildToken(user, roles, key);
+    public String createToken(UserDTO user, List<String> roles) {
+        return tokenBuilder.buildToken(userMapper.toEntity(user), roles, key);
     }
 
     @Override
