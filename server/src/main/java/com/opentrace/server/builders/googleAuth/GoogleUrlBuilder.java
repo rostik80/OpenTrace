@@ -1,4 +1,4 @@
-package com.opentrace.server.builders.auth;
+package com.opentrace.server.builders.googleAuth;
 
 import com.opentrace.server.properties.GoogleAuthProperties;
 import lombok.RequiredArgsConstructor;

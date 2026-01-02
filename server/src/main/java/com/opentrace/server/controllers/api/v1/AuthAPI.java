@@ -1,8 +1,11 @@
-package com.opentrace.server.controllers.api.v1.auth;
+package com.opentrace.server.controllers.api.v1;
 
-import com.opentrace.server.services.auth.GoogleAuthService;
+import com.opentrace.server.models.api.response.ApiResponse;
+import com.opentrace.server.services.auth.AuthService;
+import com.opentrace.server.services.auth.google.GoogleAuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,7 @@ import java.io.IOException;
 public class AuthAPI {
 
     private final GoogleAuthService googleAuthService;
+    private final AuthService authService;
 
     @GetMapping("/google")
     public void redirectToGoogle(
@@ -29,21 +33,25 @@ public class AuthAPI {
 
 
     @GetMapping("/google/callback")
-    public ResponseEntity<?> handleCallback(
+    public ResponseEntity<ApiResponse<String>> handleCallback(
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "state", required = false) String roles,
             @RequestParam(value = "error", required = false) String error
     ) {
         if (error != null) {
-            return ResponseEntity.badRequest().body("Google error: " + error);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error(400, "Google error: " + error));
         }
 
         if (code == null) {
-            return ResponseEntity.badRequest().body("Missing code from Google");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error(400, "Missing code from Google"));
         }
 
-        String jwt = googleAuthService.processGoogleCallback(code, roles);
+        String jwt = authService.authorize(code, roles);
 
-        return ResponseEntity.ok(jwt);
+        return ResponseEntity.ok(ApiResponse.ok(jwt));
     }
 }
