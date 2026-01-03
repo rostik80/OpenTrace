@@ -1,4 +1,4 @@
-package com.opentrace.server.builders.googleAuth;
+package com.opentrace.server.utils.builders.googleAuth;
 
 import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
 import com.opentrace.server.properties.GoogleAuthProperties;

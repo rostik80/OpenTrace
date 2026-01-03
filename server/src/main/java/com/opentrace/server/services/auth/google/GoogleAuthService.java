@@ -2,7 +2,7 @@ package com.opentrace.server.services.auth.google;
 
 import com.opentrace.server.models.dto.GoogleUserDTO;
 import com.opentrace.server.services.auth.google.helpers.GoogleRemoteSource;
-import com.opentrace.server.builders.googleAuth.GoogleUrlBuilder;
+import com.opentrace.server.utils.builders.googleAuth.GoogleUrlBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

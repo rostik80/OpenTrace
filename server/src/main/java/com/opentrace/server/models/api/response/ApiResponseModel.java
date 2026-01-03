@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL) // <--- If the field is null, it simply won't appear in the response.
-public class ApiResponse<T> {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApiResponseModel<T> {
     private int status;
     private boolean success;
     private String message;
     private T data;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") // <--- converts the date to a normal format
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
-    public static <T> ApiResponse<T> ok(T data) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseModel<T> ok(T data) {
+        return ApiResponseModel.<T>builder()
                 .status(200)
                 .success(true)
                 .data(data)
@@ -32,8 +32,8 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(int status, String message) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseModel<T> error(int status, String message) {
+        return ApiResponseModel.<T>builder()
                 .status(status)
                 .success(false)
                 .message(message)

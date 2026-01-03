@@ -2,7 +2,7 @@ package com.opentrace.server.services.auth.google.helpers;
 
 import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
 import com.opentrace.server.models.dto.GoogleUserDTO;
-import com.opentrace.server.builders.googleAuth.GoogleTokenBuilder;
+import com.opentrace.server.utils.builders.googleAuth.GoogleTokenBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

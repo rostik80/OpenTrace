@@ -1,4 +1,4 @@
-package com.opentrace.server.mappers;
+package com.opentrace.server.utils.mappers;
 
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.models.dto.GoogleUserDTO;

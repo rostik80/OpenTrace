@@ -1,6 +1,6 @@
 package com.opentrace.server.controllers.api.v1;
 
-import com.opentrace.server.models.api.response.ApiResponse;
+import com.opentrace.server.models.api.response.ApiResponseModel;
 import com.opentrace.server.services.auth.AuthService;
 import com.opentrace.server.services.auth.google.GoogleAuthService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +33,7 @@ public class AuthAPI {
 
 
     @GetMapping("/google/callback")
-    public ResponseEntity<ApiResponse<String>> handleCallback(
+    public ResponseEntity<ApiResponseModel<String>> handleCallback(
             @RequestParam(value = "code", required = false) String code,
             @RequestParam(value = "state", required = false) String roles,
             @RequestParam(value = "error", required = false) String error
@@ -41,17 +41,17 @@ public class AuthAPI {
         if (error != null) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error(400, "Google error: " + error));
+                    .body(ApiResponseModel.error(400, "Google error: " + error));
         }
 
         if (code == null) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error(400, "Missing code from Google"));
+                    .body(ApiResponseModel.error(400, "Missing code from Google"));
         }
 
-        String jwt = authService.authorize(code, roles);
+        String jwt = authService.googleAuthorize(code, roles);
 
-        return ResponseEntity.ok(ApiResponse.ok(jwt));
+        return ResponseEntity.ok(ApiResponseModel.ok(jwt));
     }
 }

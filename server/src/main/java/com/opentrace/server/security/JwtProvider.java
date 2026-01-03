@@ -1,11 +1,12 @@
 package com.opentrace.server.security;
 
-import com.opentrace.server.builders.JwtTokenBuilder;
-import com.opentrace.server.mappers.UserMapper;
+import com.opentrace.server.utils.mappers.builders.JwtTokenBuilder;
+import com.opentrace.server.utils.mappers.UserMapper;
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.properties.JwtProperties;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ public class JwtProvider implements InitializingBean {
     private final UserMapper userMapper;
     private final JwtProperties jwtProperties;
     private final JwtTokenBuilder tokenBuilder;
+
+    @Getter
     private Key key;
 
     public String createToken(UserDTO user, List<String> roles) {

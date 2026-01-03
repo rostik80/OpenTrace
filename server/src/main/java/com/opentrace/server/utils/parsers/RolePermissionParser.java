@@ -1,4 +1,4 @@
-package com.opentrace.server.parsers;
+package com.opentrace.server.utils.parsers;
 
 import org.springframework.stereotype.Component;
 
