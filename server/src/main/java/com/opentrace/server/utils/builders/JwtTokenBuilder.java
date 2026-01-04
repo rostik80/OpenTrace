@@ -1,4 +1,4 @@
-package com.opentrace.server.utils.mappers.builders;
+package com.opentrace.server.utils.builders;
 
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.properties.JwtProperties;

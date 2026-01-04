@@ -1,4 +1,4 @@
-package com.opentrace.server.utils.decoder;
+package com.opentrace.server.utils.decoders;
 
 import com.opentrace.server.properties.JwtProperties;
 import com.opentrace.server.security.JwtProvider;

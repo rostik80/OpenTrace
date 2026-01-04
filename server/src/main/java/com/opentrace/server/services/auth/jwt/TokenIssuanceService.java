@@ -1,4 +1,4 @@
-package com.opentrace.server.services.auth.Jwt;
+package com.opentrace.server.services.auth.jwt;
 
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.utils.parsers.RolePermissionParser;

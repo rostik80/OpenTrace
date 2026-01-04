@@ -1,6 +1,6 @@
 package com.opentrace.server.security;
 
-import com.opentrace.server.utils.mappers.builders.JwtTokenBuilder;
+import com.opentrace.server.utils.builders.JwtTokenBuilder;
 import com.opentrace.server.utils.mappers.UserMapper;
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.properties.JwtProperties;

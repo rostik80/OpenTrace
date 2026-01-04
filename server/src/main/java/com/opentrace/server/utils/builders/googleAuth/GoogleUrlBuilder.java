@@ -10,7 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class GoogleUrlBuilder {
 
     private final GoogleAuthProperties props;
-    private static final String GOOGLE_AUTH_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    private static final String GOOGLE_AUTH_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth"; // <-- need to be redone
 
 
     public String buildDefaultAuthUrl() {

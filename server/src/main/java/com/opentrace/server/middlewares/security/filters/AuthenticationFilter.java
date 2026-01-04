@@ -1,6 +1,6 @@
 package com.opentrace.server.middlewares.security.filters;
 
-import com.opentrace.server.utils.decoder.JwtDecoder;
+import com.opentrace.server.utils.decoders.JwtDecoder;
 import com.opentrace.server.utils.mappers.JwtAuthenticationMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
