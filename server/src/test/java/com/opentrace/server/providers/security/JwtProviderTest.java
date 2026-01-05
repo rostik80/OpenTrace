@@ -1,9 +1,8 @@
-package com.opentrace.server.security;
+package com.opentrace.server.providers.security;
 
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.properties.JwtProperties;
-import com.opentrace.server.providers.security.JwtProvider;
 import com.opentrace.server.utils.builders.JwtTokenBuilder;
 import com.opentrace.server.utils.mappers.UserMapper;
 import org.junit.jupiter.api.DisplayName;
