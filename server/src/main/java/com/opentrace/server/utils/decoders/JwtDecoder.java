@@ -1,7 +1,7 @@
 package com.opentrace.server.utils.decoders;
 
 import com.opentrace.server.properties.JwtProperties;
-import com.opentrace.server.security.JwtProvider;
+import com.opentrace.server.providers.security.JwtProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

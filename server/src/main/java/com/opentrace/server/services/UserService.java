@@ -6,6 +6,7 @@ import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -17,6 +18,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public UserDTO getByGoogleSub(String sub) {
+        return userRepository.findByGoogleSub(sub)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with sub: " + sub));
+    }
+
+    public UserDTO getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    }
 
     public UserDTO saveOrUpdate(GoogleUserDTO googleUser) {
 

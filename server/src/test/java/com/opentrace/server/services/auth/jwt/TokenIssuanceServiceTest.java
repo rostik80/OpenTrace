@@ -1,7 +1,7 @@
 package com.opentrace.server.services.auth.jwt;
 
 import com.opentrace.server.models.dto.UserDTO;
-import com.opentrace.server.security.JwtProvider;
+import com.opentrace.server.providers.security.JwtProvider;
 import com.opentrace.server.utils.parsers.RolePermissionParser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
