@@ -2,6 +2,7 @@ package com.opentrace.server.services.auth;
 
 import com.opentrace.server.models.dto.GoogleUserDTO;
 import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.services.RolePermissionService;
 import com.opentrace.server.services.UserService;
 import com.opentrace.server.services.auth.jwt.TokenIssuanceService;
 import com.opentrace.server.services.auth.google.GoogleAuthService;
@@ -24,31 +25,34 @@ class AuthServiceTest {
     private UserService userService;
     @Mock
     private TokenIssuanceService tokenIssuanceService;
+    @Mock
+    private RolePermissionService rolePermissionService;
 
     @InjectMocks
     private AuthService authService;
 
     @Test
-    @DisplayName("Should successfully complete the full Google authorization flow")
+    @DisplayName("Should successfully complete the full Google authorization flow with RSA key and role assignment")
     void shouldCompleteGoogleAuthorization() {
-
         String code = "auth-code";
         String requestedRoles = "USER";
+        String publicKey = "test-public-key";
         String finalToken = "jwt-token";
 
         GoogleUserDTO googleUser = new GoogleUserDTO();
         UserDTO appUser = new UserDTO();
 
         when(googleAuthService.getGoogleUser(code)).thenReturn(googleUser);
-        when(userService.saveOrUpdate(googleUser)).thenReturn(appUser);
+        when(userService.save(googleUser, publicKey)).thenReturn(appUser);
         when(tokenIssuanceService.authorize(appUser, requestedRoles)).thenReturn(finalToken);
 
-        String result = authService.googleAuthorize(code, requestedRoles);
+        String result = authService.authorize(code, requestedRoles, publicKey);
 
         assertEquals(finalToken, result);
 
         verify(googleAuthService).getGoogleUser(code);
-        verify(userService).saveOrUpdate(googleUser);
+        verify(userService).save(googleUser, publicKey);
+        verify(rolePermissionService).assignRolesPermission(appUser);
         verify(tokenIssuanceService).authorize(appUser, requestedRoles);
     }
 }

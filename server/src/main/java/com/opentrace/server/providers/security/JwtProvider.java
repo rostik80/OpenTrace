@@ -1,4 +1,4 @@
-package com.opentrace.server.security;
+package com.opentrace.server.providers.security;
 
 import com.opentrace.server.utils.builders.JwtTokenBuilder;
 import com.opentrace.server.utils.mappers.UserMapper;

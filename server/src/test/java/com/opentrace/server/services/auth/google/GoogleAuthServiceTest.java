@@ -26,16 +26,18 @@ class GoogleAuthServiceTest {
     private GoogleAuthService googleAuthService;
 
     @Test
-    @DisplayName("Should return correct auth URL from builder")
+    @DisplayName("Should return correct auth URL from builder using roles and publicKey")
     void shouldReturnAuthUrl() {
         String roles = "ADMIN";
-        String expectedUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=...&state=ADMIN";
-        when(urlBuilder.buildFullAuthUrlWithAccountSelect(roles)).thenReturn(expectedUrl);
+        String publicKey = "test-public-key";
+        String expectedUrl = "https://accounts.google.com/auth?state=encodedData";
 
-        String resultUrl = googleAuthService.getAuthUrl(roles);
+        when(urlBuilder.buildFullAuthUrlWithAccountSelect(roles, publicKey)).thenReturn(expectedUrl);
+
+        String resultUrl = googleAuthService.getAuthUrl(roles, publicKey);
 
         assertEquals(expectedUrl, resultUrl);
-        verify(urlBuilder).buildFullAuthUrlWithAccountSelect(roles);
+        verify(urlBuilder).buildFullAuthUrlWithAccountSelect(roles, publicKey);
     }
 
     @Test

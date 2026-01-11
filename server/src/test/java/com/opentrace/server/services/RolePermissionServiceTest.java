@@ -49,7 +49,7 @@ class RolePermissionServiceTest {
 
     @Test
     @DisplayName("Should assign default roles when no roles provided")
-    @SuppressWarnings("unchecked")
+
     void shouldAssignDefaultRoles() {
 
         UserDTO dto = new UserDTO();
@@ -71,7 +71,7 @@ class RolePermissionServiceTest {
 
     @Test
     @DisplayName("Should assign specific roles when provided")
-    @SuppressWarnings("unchecked")
+
     void shouldAssignSpecificRoles() {
 
         UserDTO dto = new UserDTO();

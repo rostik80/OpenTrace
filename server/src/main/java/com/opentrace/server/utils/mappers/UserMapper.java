@@ -19,4 +19,6 @@ public interface UserMapper {
     UserEntity toEntity(GoogleUserDTO googleUserDto);
 
     UserEntity toEntity(UserDTO userDto);
+
+    UserEntity clone(UserEntity entity);
 }

@@ -1,4 +1,4 @@
-package com.opentrace.server.security;
+package com.opentrace.server.providers.security;
 
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.models.entities.UserEntity;

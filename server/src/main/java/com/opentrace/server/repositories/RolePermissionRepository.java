@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, Long> {
     List<RolePermissionEntity> findAllByUser(UserEntity user);
+    List<RolePermissionEntity> findAllByUserId(Long id);
 }

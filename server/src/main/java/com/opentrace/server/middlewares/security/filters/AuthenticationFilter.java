@@ -41,8 +41,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
             Claims claims = jwtDecoder.decode(token);
 
-            System.out.println(token);
-
             if (claims.getSubject() != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 var authToken = jwtAuthenticationMapper.toAuthentication(claims);
                 SecurityContextHolder.getContext().setAuthentication(authToken);

@@ -3,9 +3,6 @@ package com.opentrace.server.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Entity
 @Table(name = "users")
@@ -23,16 +20,25 @@ public class UserEntity {
     private String googleSub;
     private String email;
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String avatarUrl;
 
-    @Builder.Default
-    private Integer priority = 10;
 
     private String status;
 
     @Builder.Default
+    private Integer priority = 0;
+
+
+    @Builder.Default
     private Integer tokenVersion = 1;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<RolePermissionEntity> roles = new ArrayList<>();
+
+    @Column(columnDefinition = "TEXT")
+    private String aesEncryptedKey;
+    private String aesIv;
+
+    @Column(columnDefinition = "TEXT")
+    private String rsaPublicKey;
 }

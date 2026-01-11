@@ -5,25 +5,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Base64;
+
+
 @Component
 @RequiredArgsConstructor
 public class GoogleUrlBuilder {
 
     private final GoogleAuthProperties props;
-    private static final String GOOGLE_AUTH_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth"; // <-- need to be redone
+    private static final String GOOGLE_AUTH_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 
+    public String buildFullAuthUrlWithAccountSelect(String roles, String publicKey) {
 
-    public String buildDefaultAuthUrl() {
-        return getBaseBuilder().toUriString();
-    }
+        String state = encodeState(roles, publicKey);
 
-    public String buildFullAuthUrlWithAccountSelect(String roles) {
-         return getBaseBuilder()
+        return getBaseBuilder()
                 .queryParam("access_type", "offline")
                 .queryParam("prompt", "select_account")
-                .queryParam("state", roles)
+                .queryParam("state", state)
                 .build()
                 .toUriString();
+    }
+
+    private String encodeState(String roles, String publicKey) {
+        String combined = roles + "|" + publicKey;
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(combined.getBytes());
     }
 
     private UriComponentsBuilder getBaseBuilder() {

@@ -20,6 +20,7 @@ public class SpringSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/google/**", "/login", "/h2-console/**").permitAll()
+                        .requestMatchers("/api/v1/me").authenticated()
                         .requestMatchers("/test").hasRole("WORKER")
                         .anyRequest().authenticated()
                 )
