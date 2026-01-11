@@ -1,8 +1,8 @@
 package com.opentrace.server.utils.generators;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.security.KeyPair;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +16,8 @@ class AesGeneratorTest {
     }
 
     @Test
-    void generateAesKey_ShouldReturn256BitKey() throws Exception {
+    @DisplayName("Should generate 256-bit AES key")
+    void generateAesKey_ShouldReturn256BitKey() {
         byte[] key = aesGenerator.generateAesKey();
 
         assertNotNull(key);
@@ -24,6 +25,7 @@ class AesGeneratorTest {
     }
 
     @Test
+    @DisplayName("Should generate 16-byte IV")
     void generateIv_ShouldReturn16ByteIv() {
         byte[] iv = aesGenerator.generateIv();
 
@@ -32,21 +34,13 @@ class AesGeneratorTest {
     }
 
     @Test
+    @DisplayName("Should produce unique IVs each time")
     void generateIv_ShouldProduceDifferentValuesEachTime() {
         byte[] iv1 = aesGenerator.generateIv();
         byte[] iv2 = aesGenerator.generateIv();
 
-        assertArrayEquals(iv1, iv1);
+        assertNotNull(iv1);
+        assertNotNull(iv2);
         assertFalse(java.util.Arrays.equals(iv1, iv2));
-    }
-
-    @Test
-    void generateRsaKeyPair_ShouldReturnValidKeyPair() throws Exception {
-        KeyPair keyPair = aesGenerator.generateRsaKeyPair();
-
-        assertNotNull(keyPair);
-        assertNotNull(keyPair.getPrivate());
-        assertNotNull(keyPair.getPublic());
-        assertEquals("RSA", keyPair.getPublic().getAlgorithm());
     }
 }

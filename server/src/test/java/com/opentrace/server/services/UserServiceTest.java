@@ -4,6 +4,11 @@ import com.opentrace.server.models.dto.GoogleUserDTO;
 import com.opentrace.server.models.dto.UserDTO;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.repositories.UserRepository;
+import com.opentrace.server.utils.builders.UserEntityBuilder;
+import com.opentrace.server.utils.crypto.Hasher;
+import com.opentrace.server.utils.crypto.RsaCipher;
+import com.opentrace.server.utils.generators.AesGenerator;
+import com.opentrace.server.utils.mappers.Base64Mapper;
 import com.opentrace.server.utils.mappers.UserMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -26,56 +32,102 @@ class UserServiceTest {
     @Mock
     private UserMapper userMapper;
     @Mock
-    private RolePermissionService rolePermissionService;
+    private Base64Mapper base64Mapper;
+    @Mock
+    private AesGenerator aesGenerator;
+    @Mock
+    private RsaCipher rsaCipher;
+    @Mock
+    private Hasher hasher;
+    @Mock
+    private UserEntityBuilder userEntityBuilder;
 
     @InjectMocks
     private UserService userService;
 
     @Test
-    @DisplayName("Should update existing user when google sub is found")
-    void shouldUpdateExistingUser() {
+    @DisplayName("Should return existing user by hashed google sub")
+    void shouldGetByGoogleSub() {
+        String encryptedSub = "hashed-sub";
+        UserEntity userEntity = new UserEntity();
+        UserDTO userDto = new UserDTO();
 
-        GoogleUserDTO googleUser = new GoogleUserDTO();
-        googleUser.setSub("google-123");
-        googleUser.setName("New Name");
+        when(userRepository.findByGoogleSub(encryptedSub)).thenReturn(Optional.of(userEntity));
+        when(userMapper.toDto(userEntity)).thenReturn(userDto);
 
-        UserEntity existingUser = new UserEntity();
-        existingUser.setGoogleSub("google-123");
-        existingUser.setName("Old Name");
+        UserDTO result = userService.getByGoogleSub(encryptedSub);
 
-        when(userRepository.findByGoogleSub("google-123")).thenReturn(Optional.of(existingUser));
-        when(userRepository.save(any(UserEntity.class))).thenReturn(existingUser);
-        when(userMapper.toDto(any(UserEntity.class))).thenReturn(new UserDTO());
-
-        userService.saveOrUpdate(googleUser);
-
-        assertEquals("New Name", existingUser.getName());
-        verify(userRepository).save(existingUser);
-
-        verify(rolePermissionService, never()).assignRolesPermission(any());
+        assertNotNull(result);
+        verify(userRepository).findByGoogleSub(encryptedSub);
     }
 
     @Test
-    @DisplayName("Should create new user and assign roles when not found")
-    void shouldCreateNewUser() {
+    @DisplayName("Should throw exception when user not found by sub")
+    void shouldThrowExceptionWhenUserNotFound() {
+        String encryptedSub = "non-existent";
+        when(userRepository.findByGoogleSub(encryptedSub)).thenReturn(Optional.empty());
 
+        assertThrows(UsernameNotFoundException.class, () -> userService.getByGoogleSub(encryptedSub));
+    }
+
+    @Test
+    @DisplayName("Should return existing user DTO if hashed sub is found in database")
+    void shouldReturnExistingUserWhenFound() {
+        GoogleUserDTO googleUser = new GoogleUserDTO();
+        googleUser.setSub("raw-sub");
+        String hashedSub = "hashed-sub";
+        String publicKey = "test-public-key";
+        UserEntity existingUser = new UserEntity();
+        UserDTO expectedDto = new UserDTO();
+
+        when(hasher.hash("raw-sub")).thenReturn(hashedSub);
+        when(userRepository.findByGoogleSub(hashedSub)).thenReturn(Optional.of(existingUser));
+        when(userMapper.toDto(existingUser)).thenReturn(expectedDto);
+
+        UserDTO result = userService.save(googleUser, publicKey);
+
+        assertNotNull(result);
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Should create and encrypt new user when hashed sub is not found")
+    void shouldCreateNewUserWhenNotFound() {
         GoogleUserDTO googleUser = new GoogleUserDTO();
         googleUser.setSub("new-sub");
+        String hashedSub = "hashed-new-sub";
+        String publicKey = "test-public-key";
+
+        byte[] aesKey = new byte[32];
+        byte[] aesIv = new byte[16];
+        byte[] encryptedAesKey = new byte[256];
+        String encryptedAesKeyBase64 = "encrypted-base64";
 
         UserEntity newUser = new UserEntity();
         UserDTO savedDto = new UserDTO();
 
-        when(userRepository.findByGoogleSub("new-sub")).thenReturn(Optional.empty());
-        when(userMapper.toEntity(googleUser)).thenReturn(newUser);
-        when(userRepository.save(newUser)).thenReturn(newUser);
-        when(userMapper.toDto(newUser)).thenReturn(savedDto);
+        when(hasher.hash("new-sub")).thenReturn(hashedSub);
+        when(userRepository.findByGoogleSub(hashedSub)).thenReturn(Optional.empty());
+        when(aesGenerator.generateAesKey()).thenReturn(aesKey);
+        when(aesGenerator.generateIv()).thenReturn(aesIv);
+        when(rsaCipher.encrypt(any(byte[].class), anyString())).thenReturn(encryptedAesKey);
+        when(base64Mapper.toBase64(any(byte[].class))).thenReturn(encryptedAesKeyBase64);
 
-        UserDTO result = userService.saveOrUpdate(googleUser);
+        doReturn(newUser).when(userEntityBuilder).createEncryptedEntity(
+                any(GoogleUserDTO.class),
+                anyString(),
+                any(byte[].class),
+                any(byte[].class),
+                anyString()
+        );
 
-        assertEquals(1, newUser.getTokenVersion());
-        assertEquals(0, newUser.getPriority());
-        verify(userRepository).save(newUser);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(newUser);
+        when(userMapper.toDto(any(UserEntity.class))).thenReturn(savedDto);
 
-        verify(rolePermissionService).assignRolesPermission(savedDto);
+        UserDTO result = userService.save(googleUser, publicKey);
+
+        assertNotNull(result);
+        verify(userRepository).save(any(UserEntity.class));
+        verify(userEntityBuilder).createEncryptedEntity(any(), any(), any(), any(), any());
     }
 }
