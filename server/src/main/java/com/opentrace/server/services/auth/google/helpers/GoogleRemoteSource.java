@@ -1,7 +1,7 @@
 package com.opentrace.server.services.auth.google.helpers;
 
-import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
-import com.opentrace.server.models.dto.GoogleUserDTO;
+import com.opentrace.server.models.dto.GoogleTokenRequestDto;
+import com.opentrace.server.models.dto.GoogleUserDto;
 import com.opentrace.server.utils.builders.googleAuth.GoogleTokenBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class GoogleRemoteSource {
 
     public String fetchAccessToken(String authCode) {
 
-        GoogleTokenRequestDTO tokenBodyRequest = tokenBuilder.buildTokenBodyRequest(authCode);
+        GoogleTokenRequestDto tokenBodyRequest = tokenBuilder.buildTokenBodyRequest(authCode);
 
         Map<String, Object> response = restTemplate.postForObject(TOKEN_URL, tokenBodyRequest, Map.class);
 
@@ -34,8 +34,8 @@ public class GoogleRemoteSource {
         return (String) response.get(ACCESS_TOKEN_KEY);
     }
 
-    public GoogleUserDTO fetchUserInfo(String accessToken) {
+    public GoogleUserDto fetchUserInfo(String accessToken) {
 
-        return restTemplate.getForObject(USER_INFO_URL + accessToken, GoogleUserDTO.class);
+        return restTemplate.getForObject(USER_INFO_URL + accessToken, GoogleUserDto.class);
     }
 }

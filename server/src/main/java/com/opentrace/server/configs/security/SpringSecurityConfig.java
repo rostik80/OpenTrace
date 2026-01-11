@@ -21,6 +21,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/google/**", "/login", "/h2-console/**").permitAll()
                         .requestMatchers("/api/v1/me").authenticated()
+                        .requestMatchers("/api/v1/auth/sessions/revoke-all").authenticated()
                         .requestMatchers("/test").hasRole("WORKER")
                         .anyRequest().authenticated()
                 )

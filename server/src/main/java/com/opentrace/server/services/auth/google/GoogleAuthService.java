@@ -1,6 +1,6 @@
 package com.opentrace.server.services.auth.google;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
 import com.opentrace.server.services.auth.google.helpers.GoogleRemoteSource;
 import com.opentrace.server.utils.builders.googleAuth.GoogleUrlBuilder;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class GoogleAuthService {
         return urlBuilder.buildFullAuthUrlWithAccountSelect(roles, publicKey);
     }
 
-    public GoogleUserDTO getGoogleUser(String authCode) {
+    public GoogleUserDto getGoogleUser(String authCode) {
 
         String accessToken = googleRemoteSource.fetchAccessToken(authCode);
 

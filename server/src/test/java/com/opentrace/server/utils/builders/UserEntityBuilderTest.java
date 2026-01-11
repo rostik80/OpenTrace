@@ -1,6 +1,6 @@
 package com.opentrace.server.utils.builders;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.utils.crypto.AesCipher;
 import com.opentrace.server.utils.crypto.Hasher;
@@ -34,7 +34,7 @@ class UserEntityBuilderTest {
     @Test
     @DisplayName("Should correctly map GoogleUserDTO to encrypted UserEntity")
     void shouldCreateEncryptedEntity() throws Exception {
-        GoogleUserDTO googleUser = new GoogleUserDTO();
+        GoogleUserDto googleUser = new GoogleUserDto();
         googleUser.setSub("google-sub-id");
         googleUser.setEmail("test@example.com");
         googleUser.setGivenName("John");
@@ -73,7 +73,7 @@ class UserEntityBuilderTest {
     @Test
     @DisplayName("Should throw RuntimeException when encryption fails")
     void shouldThrowExceptionOnEncryptionFailure() throws Exception {
-        GoogleUserDTO googleUser = new GoogleUserDTO();
+        GoogleUserDto googleUser = new GoogleUserDto();
         googleUser.setSub("sub");
         googleUser.setEmail("email");
 

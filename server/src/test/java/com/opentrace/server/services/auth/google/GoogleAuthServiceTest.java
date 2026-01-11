@@ -1,6 +1,6 @@
 package com.opentrace.server.services.auth.google;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
 import com.opentrace.server.services.auth.google.helpers.GoogleRemoteSource;
 import com.opentrace.server.utils.builders.googleAuth.GoogleUrlBuilder;
 import org.junit.jupiter.api.DisplayName;
@@ -45,14 +45,14 @@ class GoogleAuthServiceTest {
     void shouldGetGoogleUser() {
         String authCode = "valid-auth-code";
         String mockAccessToken = "ya29.access-token-123";
-        GoogleUserDTO expectedUser = new GoogleUserDTO();
+        GoogleUserDto expectedUser = new GoogleUserDto();
         expectedUser.setEmail("user@gmail.com");
         expectedUser.setName("Google User");
 
         when(googleRemoteSource.fetchAccessToken(authCode)).thenReturn(mockAccessToken);
         when(googleRemoteSource.fetchUserInfo(mockAccessToken)).thenReturn(expectedUser);
 
-        GoogleUserDTO resultUser = googleAuthService.getGoogleUser(authCode);
+        GoogleUserDto resultUser = googleAuthService.getGoogleUser(authCode);
 
         assertEquals(expectedUser, resultUser);
         assertEquals("user@gmail.com", resultUser.getEmail());

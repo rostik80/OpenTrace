@@ -1,6 +1,6 @@
 package com.opentrace.server.services.auth.jwt;
 
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.providers.security.JwtProvider;
 import com.opentrace.server.services.RolePermissionService;
 import com.opentrace.server.utils.parsers.RolePermissionParser;
@@ -29,12 +29,12 @@ class TokenIssuanceServiceTest {
     private RolePermissionService rolePermissionService;
 
     @InjectMocks
-    private TokenIssuanceService tokenIssuanceService;
+    private TokenService tokenIssuanceService;
 
     @Test
     @DisplayName("Should issue token with intersection of requested and allowed roles")
     void shouldAuthorizeAndReturnTokenWithFilteredRoles() {
-        UserDTO userDTO = new UserDTO();
+        UserDto userDTO = new UserDto();
         String rawRoles = "ADMIN, USER";
         List<String> parsedRequestedRoles = List.of("ADMIN", "USER");
         List<String> allowedRolesFromDb = List.of("USER");
@@ -56,7 +56,7 @@ class TokenIssuanceServiceTest {
     @Test
     @DisplayName("Should issue token with REQUESTER role when no requested roles are allowed")
     void shouldFallbackToRequesterRole() {
-        UserDTO userDTO = new UserDTO();
+        UserDto userDTO = new UserDto();
         String rawRoles = "ADMIN";
         List<String> parsedRequestedRoles = List.of("ADMIN");
         List<String> allowedRolesFromDb = List.of("WORKER");

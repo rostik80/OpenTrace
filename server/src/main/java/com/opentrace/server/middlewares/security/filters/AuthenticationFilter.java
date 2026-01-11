@@ -2,6 +2,7 @@ package com.opentrace.server.middlewares.security.filters;
 
 import com.opentrace.server.utils.decoders.JwtDecoder;
 import com.opentrace.server.utils.mappers.JwtAuthenticationMapper;
+import com.opentrace.server.services.auth.jwt.TokenService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtDecoder jwtDecoder;
     private final JwtAuthenticationMapper jwtAuthenticationMapper;
+    private final TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -42,11 +44,31 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             Claims claims = jwtDecoder.decode(token);
 
             if (claims.getSubject() != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                var authToken = jwtAuthenticationMapper.toAuthentication(claims);
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                if (isTokenVersionValid(claims)) {
+                    var authToken = jwtAuthenticationMapper.toAuthentication(claims);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    System.err.println("JWT Version mismatch. Session revoked.");
+                }
             }
         } catch (Exception e) {
             System.err.println("JWT Verification failed: " + e.getMessage());
         }
+    }
+
+    private boolean isTokenVersionValid(Claims claims) {
+        String googleSub = claims.getSubject();
+
+        Object versionInTokenObj = claims.get("version");
+
+        if (versionInTokenObj == null) {
+            return false;
+        }
+
+        Integer versionInToken = ((Number) versionInTokenObj).intValue();
+        Integer currentVersionInDb = tokenService.getCurrentTokenVersionByGoogleSub(googleSub);
+
+        return versionInToken.equals(currentVersionInDb);
     }
 }

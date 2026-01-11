@@ -1,7 +1,7 @@
 package com.opentrace.server.services;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.repositories.UserRepository;
 import com.opentrace.server.utils.builders.UserEntityBuilder;
@@ -50,12 +50,12 @@ class UserServiceTest {
     void shouldGetByGoogleSub() {
         String encryptedSub = "hashed-sub";
         UserEntity userEntity = new UserEntity();
-        UserDTO userDto = new UserDTO();
+        UserDto userDto = new UserDto();
 
         when(userRepository.findByGoogleSub(encryptedSub)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDto(userEntity)).thenReturn(userDto);
 
-        UserDTO result = userService.getByGoogleSub(encryptedSub);
+        UserDto result = userService.getByGoogleSub(encryptedSub);
 
         assertNotNull(result);
         verify(userRepository).findByGoogleSub(encryptedSub);
@@ -73,18 +73,18 @@ class UserServiceTest {
     @Test
     @DisplayName("Should return existing user DTO if hashed sub is found in database")
     void shouldReturnExistingUserWhenFound() {
-        GoogleUserDTO googleUser = new GoogleUserDTO();
+        GoogleUserDto googleUser = new GoogleUserDto();
         googleUser.setSub("raw-sub");
         String hashedSub = "hashed-sub";
         String publicKey = "test-public-key";
         UserEntity existingUser = new UserEntity();
-        UserDTO expectedDto = new UserDTO();
+        UserDto expectedDto = new UserDto();
 
         when(hasher.hash("raw-sub")).thenReturn(hashedSub);
         when(userRepository.findByGoogleSub(hashedSub)).thenReturn(Optional.of(existingUser));
         when(userMapper.toDto(existingUser)).thenReturn(expectedDto);
 
-        UserDTO result = userService.save(googleUser, publicKey);
+        UserDto result = userService.save(googleUser, publicKey);
 
         assertNotNull(result);
         verify(userRepository, never()).save(any());
@@ -93,7 +93,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Should create and encrypt new user when hashed sub is not found")
     void shouldCreateNewUserWhenNotFound() {
-        GoogleUserDTO googleUser = new GoogleUserDTO();
+        GoogleUserDto googleUser = new GoogleUserDto();
         googleUser.setSub("new-sub");
         String hashedSub = "hashed-new-sub";
         String publicKey = "test-public-key";
@@ -104,7 +104,7 @@ class UserServiceTest {
         String encryptedAesKeyBase64 = "encrypted-base64";
 
         UserEntity newUser = new UserEntity();
-        UserDTO savedDto = new UserDTO();
+        UserDto savedDto = new UserDto();
 
         when(hasher.hash("new-sub")).thenReturn(hashedSub);
         when(userRepository.findByGoogleSub(hashedSub)).thenReturn(Optional.empty());
@@ -114,7 +114,7 @@ class UserServiceTest {
         when(base64Mapper.toBase64(any(byte[].class))).thenReturn(encryptedAesKeyBase64);
 
         doReturn(newUser).when(userEntityBuilder).createEncryptedEntity(
-                any(GoogleUserDTO.class),
+                any(GoogleUserDto.class),
                 anyString(),
                 any(byte[].class),
                 any(byte[].class),
@@ -124,7 +124,7 @@ class UserServiceTest {
         when(userRepository.save(any(UserEntity.class))).thenReturn(newUser);
         when(userMapper.toDto(any(UserEntity.class))).thenReturn(savedDto);
 
-        UserDTO result = userService.save(googleUser, publicKey);
+        UserDto result = userService.save(googleUser, publicKey);
 
         assertNotNull(result);
         verify(userRepository).save(any(UserEntity.class));

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 
 @Data
-public class SearchRequestDTO {
+public class SearchRequestDto {
 
     private UUID id;
     private String googleID;

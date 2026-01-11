@@ -1,6 +1,6 @@
 package com.opentrace.server.controllers.api.v1;
 
-import com.opentrace.server.models.dto.SearchRequestDTO;
+import com.opentrace.server.models.dto.SearchRequestDto;
 import com.opentrace.server.services.SearchRequestService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class SearchRequestAPI {
+public class SearchRequestApi {
 
     private SearchRequestService searchRequestService;
 
     @PostMapping("/request")
-    public SearchRequestDTO SearchRequest(@RequestBody SearchRequestDTO req) {
+    public SearchRequestDto SearchRequest(@RequestBody SearchRequestDto req) {
         System.out.println(req.getName());
         searchRequestService.CreateSearchRequest(req);
 

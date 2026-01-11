@@ -1,7 +1,7 @@
 package com.opentrace.server.controllers.api.v1;
 
 import com.opentrace.server.models.api.response.ApiResponseModel;
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/me")
 @RequiredArgsConstructor
-public class UserAPI {
+public class UserApi {
 
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<ApiResponseModel<UserDTO>> getCurrentUser() {
+    public ResponseEntity<ApiResponseModel<UserDto>> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String googleSub = authentication.getName();
 
-        UserDTO user = userService.getByGoogleSub(googleSub);
+        UserDto user = userService.getByGoogleSub(googleSub);
 
         return ResponseEntity.ok(ApiResponseModel.ok(user));
     }

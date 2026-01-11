@@ -1,10 +1,10 @@
 package com.opentrace.server.services.auth;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.services.RolePermissionService;
 import com.opentrace.server.services.UserService;
-import com.opentrace.server.services.auth.jwt.TokenIssuanceService;
+import com.opentrace.server.services.auth.jwt.TokenService;
 import com.opentrace.server.services.auth.google.GoogleAuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class AuthServiceTest {
     @Mock
     private UserService userService;
     @Mock
-    private TokenIssuanceService tokenIssuanceService;
+    private TokenService tokenIssuanceService;
     @Mock
     private RolePermissionService rolePermissionService;
 
@@ -39,8 +39,8 @@ class AuthServiceTest {
         String publicKey = "test-public-key";
         String finalToken = "jwt-token";
 
-        GoogleUserDTO googleUser = new GoogleUserDTO();
-        UserDTO appUser = new UserDTO();
+        GoogleUserDto googleUser = new GoogleUserDto();
+        UserDto appUser = new UserDto();
 
         when(googleAuthService.getGoogleUser(code)).thenReturn(googleUser);
         when(userService.save(googleUser, publicKey)).thenReturn(appUser);

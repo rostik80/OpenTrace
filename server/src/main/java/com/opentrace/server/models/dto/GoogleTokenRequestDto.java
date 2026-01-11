@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO {
+public class GoogleTokenRequestDto {
 
-    private Long id;
-    private String roleName;
-    private Long userId;
+    private String code;
+    private String client_id;
+    private String client_secret;
+    private String redirect_uri;
+    private String grant_type;
 }

@@ -1,7 +1,7 @@
 package com.opentrace.server.utils.mappers;
 
-import com.opentrace.server.models.dto.GoogleUserDTO;
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.GoogleUserDto;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.models.entities.UserEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class UserMapperTest {
     @DisplayName("Should map GoogleUserDTO to UserEntity correctly with custom mappings")
     void shouldMapGoogleUserDtoToUserEntity() {
 
-        GoogleUserDTO googleDto = new GoogleUserDTO();
+        GoogleUserDto googleDto = new GoogleUserDto();
         googleDto.setSub("google-12345");
         googleDto.setPicture("https://avatar.com/photo.jpg");
         googleDto.setName("Test User");
@@ -44,7 +44,7 @@ class UserMapperTest {
         entity.setName("Java Giant");
         entity.setGoogleSub("sub-999");
 
-        UserDTO dto = userMapper.toDto(entity);
+        UserDto dto = userMapper.toDto(entity);
 
         assertNotNull(dto);
         assertEquals(entity.getId(), dto.getId());

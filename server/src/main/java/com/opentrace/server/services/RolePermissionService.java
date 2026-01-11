@@ -1,6 +1,6 @@
 package com.opentrace.server.services;
 
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.models.entities.RolePermissionEntity;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.repositories.RolePermissionRepository;
@@ -19,7 +19,7 @@ public class RolePermissionService {
     private final RolePermissionRepository rolePermissionRepository;
     private final UserRepository userRepository;
 
-    public List<String> getAllowedRoles(UserDTO userDto) {
+    public List<String> getAllowedRoles(UserDto userDto) {
         return rolePermissionRepository.findAllByUserId(userDto.getId())
                 .stream()
                 .map(RolePermissionEntity::getTargetRole)
@@ -27,7 +27,7 @@ public class RolePermissionService {
     }
 
     @Transactional
-    public void assignRolesPermission(UserDTO userDto, String... roles) {
+    public void assignRolesPermission(UserDto userDto, String... roles) {
         UserEntity user = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

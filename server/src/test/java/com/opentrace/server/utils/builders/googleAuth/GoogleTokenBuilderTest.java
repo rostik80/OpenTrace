@@ -1,6 +1,6 @@
 package com.opentrace.server.utils.builders.googleAuth;
 
-import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
+import com.opentrace.server.models.dto.GoogleTokenRequestDto;
 import com.opentrace.server.properties.GoogleAuthProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class GoogleTokenBuilderTest {
         when(props.getClientSecret()).thenReturn(expectedSecret);
         when(props.getRedirectUri()).thenReturn(expectedRedirectUri);
 
-        GoogleTokenRequestDTO result = googleTokenBuilder.buildTokenBodyRequest(testCode);
+        GoogleTokenRequestDto result = googleTokenBuilder.buildTokenBodyRequest(testCode);
 
         assertNotNull(result, "Resulting DTO should not be null");
         assertEquals(testCode, result.getCode());

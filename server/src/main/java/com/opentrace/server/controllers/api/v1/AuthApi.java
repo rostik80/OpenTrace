@@ -1,13 +1,17 @@
 package com.opentrace.server.controllers.api.v1;
 
 import com.opentrace.server.models.api.response.ApiResponseModel;
+import com.opentrace.server.services.UserService;
 import com.opentrace.server.services.auth.AuthService;
 import com.opentrace.server.services.auth.google.GoogleAuthService;
+import com.opentrace.server.services.auth.jwt.TokenService;
 import com.opentrace.server.utils.codecs.GoogleStatePacker;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,11 +20,12 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class AuthAPI {
+public class AuthApi {
 
     private final GoogleAuthService googleAuthService;
     private final AuthService authService;
     private final GoogleStatePacker googleBaseCodec;
+    private final TokenService tokenService;
 
     @GetMapping("/google")
     public void redirectToGoogle(
@@ -67,5 +72,14 @@ public class AuthAPI {
         return ResponseEntity.ok(ApiResponseModel.ok(jwt));
     }
 
-    // <-- revoke All tokens
+    @PostMapping("sessions/revoke-all")
+    public String revokeAllTokens() {
+        System.out.println("sessions/revoke-all");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println(authentication.getName());
+        tokenService.revokeAllSessionsByGoogleSub(authentication.getName());
+
+        return "";
+    }
 }

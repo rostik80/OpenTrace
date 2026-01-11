@@ -1,6 +1,6 @@
 package com.opentrace.server.providers.security;
 
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.properties.JwtProperties;
 import com.opentrace.server.utils.builders.JwtTokenBuilder;
@@ -59,7 +59,7 @@ class JwtProviderTest {
     @DisplayName("Should coordinate token creation between mapper and builder")
     void shouldCreateTokenSuccessfully() {
 
-        UserDTO dto = new UserDTO();
+        UserDto dto = new UserDto();
         UserEntity entity = new UserEntity();
         List<String> roles = List.of("USER");
         String expectedToken = "header.payload.signature";

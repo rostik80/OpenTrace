@@ -1,6 +1,6 @@
 package com.opentrace.server.utils.builders.googleAuth;
 
-import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
+import com.opentrace.server.models.dto.GoogleTokenRequestDto;
 import com.opentrace.server.properties.GoogleAuthProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,8 @@ public class GoogleTokenBuilder {
 
     private final GoogleAuthProperties props;
 
-    public GoogleTokenRequestDTO buildTokenBodyRequest(String code) {
-        return GoogleTokenRequestDTO.builder()
+    public GoogleTokenRequestDto buildTokenBodyRequest(String code) {
+        return GoogleTokenRequestDto.builder()
                 .code(code)
                 .client_id(props.getClientId())
                 .client_secret(props.getClientSecret())

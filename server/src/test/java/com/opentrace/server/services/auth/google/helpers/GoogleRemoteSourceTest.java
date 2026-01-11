@@ -1,7 +1,7 @@
 package com.opentrace.server.services.auth.google.helpers;
 
-import com.opentrace.server.models.dto.GoogleTokenRequestDTO;
-import com.opentrace.server.models.dto.GoogleUserDTO;
+import com.opentrace.server.models.dto.GoogleTokenRequestDto;
+import com.opentrace.server.models.dto.GoogleUserDto;
 import com.opentrace.server.utils.builders.googleAuth.GoogleTokenBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class GoogleRemoteSourceTest {
     void shouldFetchAccessTokenSuccessfully() {
 
         String code = "valid-code";
-        GoogleTokenRequestDTO requestBody = new GoogleTokenRequestDTO();
+        GoogleTokenRequestDto requestBody = new GoogleTokenRequestDto();
         Map<String, Object> mockResponse = new HashMap<>();
         mockResponse.put("access_token", "ya29.test-token");
 
@@ -54,7 +54,7 @@ class GoogleRemoteSourceTest {
     void shouldThrowExceptionWhenTokenMissing() {
 
         String code = "invalid-code";
-        when(tokenBuilder.buildTokenBodyRequest(code)).thenReturn(new GoogleTokenRequestDTO());
+        when(tokenBuilder.buildTokenBodyRequest(code)).thenReturn(new GoogleTokenRequestDto());
 
         Map<String, Object> emptyResponse = new HashMap<>();
         when(restTemplate.postForObject(anyString(), any(), eq(Map.class)))
@@ -72,13 +72,13 @@ class GoogleRemoteSourceTest {
     void shouldFetchUserInfo() {
 
         String token = "some-token";
-        GoogleUserDTO expectedUser = new GoogleUserDTO();
+        GoogleUserDto expectedUser = new GoogleUserDto();
         expectedUser.setEmail("test@gmail.com");
 
         String expectedUrl = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + token;
-        when(restTemplate.getForObject(expectedUrl, GoogleUserDTO.class)).thenReturn(expectedUser);
+        when(restTemplate.getForObject(expectedUrl, GoogleUserDto.class)).thenReturn(expectedUser);
 
-        GoogleUserDTO result = googleRemoteSource.fetchUserInfo(token);
+        GoogleUserDto result = googleRemoteSource.fetchUserInfo(token);
 
         assertNotNull(result);
         assertEquals("test@gmail.com", result.getEmail());

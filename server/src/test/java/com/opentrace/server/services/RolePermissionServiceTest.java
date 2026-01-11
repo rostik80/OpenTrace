@@ -1,6 +1,6 @@
 package com.opentrace.server.services;
 
-import com.opentrace.server.models.dto.UserDTO;
+import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.models.entities.RolePermissionEntity;
 import com.opentrace.server.models.entities.UserEntity;
 import com.opentrace.server.repositories.RolePermissionRepository;
@@ -34,7 +34,7 @@ class RolePermissionServiceTest {
     @DisplayName("Should return allowed roles for user")
     void shouldGetAllowedRoles() {
 
-        UserDTO dto = new UserDTO();
+        UserDto dto = new UserDto();
         UserEntity entity = new UserEntity();
         RolePermissionEntity perm = RolePermissionEntity.builder().targetRole("ADMIN").build();
 
@@ -52,7 +52,7 @@ class RolePermissionServiceTest {
 
     void shouldAssignDefaultRoles() {
 
-        UserDTO dto = new UserDTO();
+        UserDto dto = new UserDto();
         UserEntity entity = new UserEntity();
         when(userMapper.toEntity(dto)).thenReturn(entity);
 
@@ -74,7 +74,7 @@ class RolePermissionServiceTest {
 
     void shouldAssignSpecificRoles() {
 
-        UserDTO dto = new UserDTO();
+        UserDto dto = new UserDto();
         UserEntity entity = new UserEntity();
         when(userMapper.toEntity(dto)).thenReturn(entity);
 
