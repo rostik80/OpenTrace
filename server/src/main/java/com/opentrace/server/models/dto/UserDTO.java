@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,11 +12,18 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
 
     private Long id;
+
     private String googleSub;
     private String email;
     private String name;
     private String avatarUrl;
+
     private String status;
     private Integer priority;
+
     private Integer tokenVersion;
+
+    private String aesEncryptedKey;
+    private String aesIv;
+    private String rsaPublicKey;
 }

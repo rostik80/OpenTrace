@@ -38,9 +38,6 @@ public class SearchRequestEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-
-    public SearchRequestEntity() {}
-
     public SearchRequestEntity(String query) {
         this.id = id;
         this.query = query;

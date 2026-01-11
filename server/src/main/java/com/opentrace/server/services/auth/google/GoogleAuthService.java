@@ -15,8 +15,8 @@ public class GoogleAuthService {
     private final GoogleUrlBuilder urlBuilder;
 
 
-    public String getAuthUrl(String roles) {
-        return urlBuilder.buildFullAuthUrlWithAccountSelect(roles);
+    public String getAuthUrl(String roles, String publicKey) {
+        return urlBuilder.buildFullAuthUrlWithAccountSelect(roles, publicKey);
     }
 
     public GoogleUserDTO getGoogleUser(String authCode) {

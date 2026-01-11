@@ -20,7 +20,6 @@ public class SearchRequestService {
         System.out.println("CreateSearchRequest RUN");
 
         SearchRequestEntity entity = new SearchRequestEntity(req.getQuery());
-//        SearchRequestEntity savedEntity = searchRequestRepository.save(entity);
 
 
         return "";

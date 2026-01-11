@@ -43,7 +43,7 @@ class AuthServiceTest {
         when(userService.saveOrUpdate(googleUser)).thenReturn(appUser);
         when(tokenIssuanceService.authorize(appUser, requestedRoles)).thenReturn(finalToken);
 
-        String result = authService.googleAuthorize(code, requestedRoles);
+        String result = authService.authorize(code, requestedRoles);
 
         assertEquals(finalToken, result);
 

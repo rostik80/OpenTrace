@@ -7,16 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "crypto.aes")
 public class AesProperties {
 
-    private String key;
     private String iv;
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 
     public String getIv() {
         return iv;

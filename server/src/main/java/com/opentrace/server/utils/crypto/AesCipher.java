@@ -1,10 +1,14 @@
 package com.opentrace.server.utils.crypto;
 
+import org.springframework.stereotype.Component;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
+
+@Component
 public class AesCipher {
 
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
