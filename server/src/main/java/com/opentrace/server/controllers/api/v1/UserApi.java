@@ -21,7 +21,7 @@ public class UserApi {
     @GetMapping
     public ResponseEntity<ApiResponseModel<UserDto>> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String googleSub = authentication.getName();
+        String googleSub = authentication.getName(); // <-- move to the controller
 
         UserDto user = userService.getByGoogleSub(googleSub);
 
