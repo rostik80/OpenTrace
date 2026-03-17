@@ -6,7 +6,7 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
-public class ConfigManager {
+public class ConfigRetrieverFactory {
 
     public static ConfigRetriever createRetriever(Vertx vertx) {
         ConfigStoreOptions fileStore = new ConfigStoreOptions()

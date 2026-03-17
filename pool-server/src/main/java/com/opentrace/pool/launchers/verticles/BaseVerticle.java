@@ -1,4 +1,4 @@
-package com.opentrace.pool.api.v1;
+package com.opentrace.pool.launchers.verticles;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -10,7 +10,7 @@ public abstract class BaseVerticle extends AbstractVerticle {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    protected void listenAndReport(NetServer server, int port, String host, Promise<Void> startPromise) {
+    protected void listen(NetServer server, int port, String host, Promise<Void> startPromise) {
         server.listen(port, host, res -> {
             if (res.succeeded()) {
                 logger.info("{} started on {}:{}", this.getClass().getSimpleName(), host, port);

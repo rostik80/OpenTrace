@@ -13,7 +13,7 @@
     <name>Pool Server</name>
 
     <properties>
-        <main.verticle>com.opentrace.pool.api.stratum.StratumVerticle</main.verticle>
+        <main.verticle>com.opentrace.pool.network.stratum.StratumVerticle</main.verticle>
         <launcher.class>com.opentrace.pool.PoolApplication</launcher.class>
     </properties>
 

@@ -1,7 +1,7 @@
 package com.opentrace.pool;
 
-import com.opentrace.pool.api.v1.StratumVerticle;
-import com.opentrace.pool.configs.ConfigManager;
+import com.opentrace.pool.launchers.verticles.StratumVerticle;
+import com.opentrace.pool.configs.ConfigRetrieverFactory;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.DeploymentOptions;
@@ -15,11 +15,11 @@ public class PoolApplication {
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        ConfigRetriever configManager = ConfigManager.createRetriever(vertx);
+        ConfigRetriever configManager = ConfigRetrieverFactory.createRetriever(vertx);
 
-        configManager.getConfig(ar -> {
-            if (ar.succeeded()) {
-                JsonObject config = ar.result();
+        configManager.getConfig(arg -> {
+            if (arg.succeeded()) {
+                JsonObject config = arg.result();
 
                 int instances = config.getJsonObject("stratum", new JsonObject())
                         .getInteger("instances", Runtime.getRuntime().availableProcessors());
@@ -37,7 +37,7 @@ public class PoolApplication {
                     }
                 });
             } else {
-                logger.error("Failed to load configuration", ar.cause());
+                logger.error("Failed to load configuration", arg.cause());
                 vertx.close();
             }
         });

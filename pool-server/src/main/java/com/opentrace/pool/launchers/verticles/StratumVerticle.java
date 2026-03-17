@@ -1,6 +1,6 @@
-package com.opentrace.pool.api.v1;
+package com.opentrace.pool.launchers.verticles;
 
-import com.opentrace.pool.handlers.StratumSocketHandler;
+import com.opentrace.pool.handlers.network.protocols.l7.StratumSocketHandler;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.NetServer;
@@ -19,7 +19,7 @@ public class StratumVerticle extends BaseVerticle {
         NetServer server = vertx.createNetServer();
         server.connectHandler(new StratumSocketHandler());
 
-        listenAndReport(
+        listen(
                 server,
                 stratumOpts.getInteger("port", 3333),
                 stratumOpts.getString("host", "0.0.0.0"),

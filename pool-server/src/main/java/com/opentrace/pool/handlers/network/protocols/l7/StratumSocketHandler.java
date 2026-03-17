@@ -1,4 +1,4 @@
-package com.opentrace.pool.handlers;
+package com.opentrace.pool.handlers.network.protocols.l7;
 
 import io.vertx.core.Handler;
 import io.vertx.core.net.NetSocket;
@@ -9,7 +9,6 @@ public class StratumSocketHandler implements Handler<NetSocket> {
 
     private static final Logger logger = LoggerFactory.getLogger(StratumSocketHandler.class);
 
-    @Override
     public void handle(NetSocket socket) {
         logger.info("New worker connected from: {}", socket.remoteAddress());
 
