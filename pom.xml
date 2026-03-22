@@ -18,11 +18,13 @@
 
     <modules>
         <module>shared-lib</module>
-        <module>server-main</module>
+        <module>main-server</module>
+        <module>pool-server</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
+        <vertx.version>4.5.13</vertx.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <jjwt.version>0.11.5</jjwt.version>
     </properties>
@@ -33,6 +35,13 @@
                 <groupId>com.opentrace</groupId>
                 <artifactId>shared-lib</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-stack-depchain</artifactId>
+                <version>${vertx.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
