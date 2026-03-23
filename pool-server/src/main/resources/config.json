@@ -2,6 +2,11 @@
   "stratum": {
     "port": 3333,
     "host": "0.0.0.0",
-    "instances": 2
+    "instances": 2,
+    "tls": {
+      "enabled": true,
+      "certPath": "certs/localhost+3.pem",
+      "keyPath": "certs/localhost+3-key.pem"
+    }
   }
 }
