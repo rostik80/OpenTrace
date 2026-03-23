@@ -9,3 +9,9 @@
 .idea/
 .vscode/
 *.iml
+
+# TLS
+*.pem
+*.key
+*.crt
+*.csr

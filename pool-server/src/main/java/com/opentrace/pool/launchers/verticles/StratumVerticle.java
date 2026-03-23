@@ -1,28 +1,29 @@
 package com.opentrace.pool.launchers.verticles;
 
+import com.opentrace.pool.configs.network.protocols.l6.TlsConfig;
 import com.opentrace.pool.handlers.network.protocols.l7.StratumSocketHandler;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.NetServer;
+import io.vertx.core.net.NetServerOptions;
 
 public class StratumVerticle extends BaseVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) {
-        JsonObject stratumOpts = config().getJsonObject("stratum", new JsonObject());
+        JsonObject stratumOptions = config().getJsonObject("stratum", new JsonObject());
 
-        if (stratumOpts == null) {
-            startPromise.fail("Configuration section 'stratum' is missing!");
-            return;
-        }
+        NetServerOptions serverOptions = new NetServerOptions();
 
-        NetServer server = vertx.createNetServer();
+        TlsConfig.applyTls(serverOptions, stratumOptions.getJsonObject("tls"));
+
+        NetServer server = vertx.createNetServer(serverOptions);
         server.connectHandler(new StratumSocketHandler());
 
         listen(
                 server,
-                stratumOpts.getInteger("port", 3333),
-                stratumOpts.getString("host", "0.0.0.0"),
+                stratumOptions.getInteger("port", 3333),
+                stratumOptions.getString("host", "0.0.0.0"),
                 startPromise
         );
     }
