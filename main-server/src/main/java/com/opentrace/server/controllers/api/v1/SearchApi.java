@@ -1,8 +1,8 @@
 package com.opentrace.server.controllers.api.v1;
 
 import com.opentrace.server.models.api.request.SearchRequest;
-import com.opentrace.shared.models.api.response.ApiResponseModel;
-import com.opentrace.shared.models.api.response.SearchStatusResponse;
+import com.opentrace.shared.models.network.http.ApiResponseModel;
+import com.opentrace.shared.models.dto.network.http.SearchStatusResponse;
 import com.opentrace.server.services.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

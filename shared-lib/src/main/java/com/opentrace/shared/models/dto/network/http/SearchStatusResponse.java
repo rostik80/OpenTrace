@@ -1,4 +1,4 @@
-package com.opentrace.shared.models.api.response;
+package com.opentrace.shared.models.dto.network.http;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

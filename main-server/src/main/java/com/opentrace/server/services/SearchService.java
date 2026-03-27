@@ -1,7 +1,7 @@
 package com.opentrace.server.services;
 
 import com.opentrace.server.models.api.request.SearchRequest;
-import com.opentrace.shared.models.api.response.SearchStatusResponse;
+import com.opentrace.shared.models.dto.network.http.SearchStatusResponse;
 import com.opentrace.server.models.entities.SearchEntity;
 import com.opentrace.server.models.entities.SearchTaskEntity;
 import com.opentrace.server.repositories.SearchRepository;

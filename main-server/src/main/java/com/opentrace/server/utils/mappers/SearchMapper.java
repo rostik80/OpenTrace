@@ -1,6 +1,6 @@
 package com.opentrace.server.utils.mappers;
 
-import com.opentrace.shared.models.api.response.SearchStatusResponse;
+import com.opentrace.shared.models.dto.network.http.SearchStatusResponse;
 import com.opentrace.shared.models.dto.SearchDto;
 import com.opentrace.server.models.entities.SearchEntity;
 import org.mapstruct.Mapper;
