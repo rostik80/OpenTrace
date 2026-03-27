@@ -1,6 +1,6 @@
 package com.opentrace.server.controllers.api.v1;
 
-import com.opentrace.shared.models.api.response.ApiResponseModel;
+import com.opentrace.shared.models.network.http.ApiResponseModel;
 import com.opentrace.server.services.auth.AuthService;
 import com.opentrace.server.services.auth.google.GoogleAuthService;
 import com.opentrace.server.services.auth.jwt.TokenService;

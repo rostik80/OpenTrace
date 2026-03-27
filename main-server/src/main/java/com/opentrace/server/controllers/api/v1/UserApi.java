@@ -1,6 +1,6 @@
 package com.opentrace.server.controllers.api.v1;
 
-import com.opentrace.shared.models.api.response.ApiResponseModel;
+import com.opentrace.shared.models.network.http.ApiResponseModel;
 import com.opentrace.server.models.dto.UserDto;
 import com.opentrace.server.services.UserService;
 import lombok.RequiredArgsConstructor;
