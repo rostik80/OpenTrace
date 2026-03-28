@@ -1,6 +1,6 @@
 package com.opentrace.pool;
 
-import com.opentrace.pool.launchers.verticles.StratumVerticle;
+import com.opentrace.pool.launchers.verticles.StratumAiaVerticle;
 import com.opentrace.pool.configs.ConfigRetrieverFactory;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
@@ -28,7 +28,7 @@ public class PoolApplication {
                         .setInstances(instances)
                         .setConfig(config);
 
-                vertx.deployVerticle(StratumVerticle.class.getName(), options, res -> {
+                vertx.deployVerticle(StratumAiaVerticle.class.getName(), options, res -> {
                     if (res.succeeded()) {
                         logger.info("Pool Server successfully started with {} instances", instances);
                     } else {
